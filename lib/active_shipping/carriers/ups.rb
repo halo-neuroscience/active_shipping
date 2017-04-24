@@ -544,7 +544,7 @@ module ActiveShipping
     def build_international_forms(xml, origin, destination, packages, options)
       if options[:paperless_invoice]
         xml.InternationalForms do
-          xml.FormType('01') # 01 is "Invoice"
+          xml.FormType('05') # 01 is "Invoice", 05 is "Partial Invoice"
           xml.InvoiceDate(options[:invoice_date] || Date.today.strftime('%Y%m%d'))
           xml.ReasonForExport(options[:reason_for_export] || 'SALE')
           xml.CurrencyCode(options[:currency_code] || 'USD')
