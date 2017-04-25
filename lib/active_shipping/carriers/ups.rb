@@ -421,9 +421,9 @@ module ActiveShipping
             end
 
             if options[:international]
-              unless options[:return]
-                build_location_node(xml, 'SoldTo', options[:sold_to] || destination, options)
-              end
+              # unless options[:return]
+                build_location_node(xml, 'SoldTo', options[:sold_to] || origin, options)
+              # end
 
               if origin.country_code(:alpha2) == 'US' && ['CA', 'PR'].include?(destination.country_code(:alpha2))
                 # Required for shipments from the US to Puerto Rico or Canada
@@ -544,7 +544,7 @@ module ActiveShipping
     def build_international_forms(xml, origin, destination, packages, options)
       if options[:paperless_invoice]
         xml.InternationalForms do
-          xml.FormType('05') # 01 is "Invoice", 05 is "Partial Invoice"
+          xml.FormType('01') # 01 is "Invoice"
           xml.InvoiceDate(options[:invoice_date] || Date.today.strftime('%Y%m%d'))
           xml.ReasonForExport(options[:reason_for_export] || 'SALE')
           xml.CurrencyCode(options[:currency_code] || 'USD')
@@ -557,7 +557,7 @@ module ActiveShipping
             xml.Product do |xml|
               xml.Description(package.options[:description])
               xml.CommodityCode(package.options[:commodity_code])
-              xml.OriginCountryCode(origin.country_code(:alpha2))
+              xml.OriginCountryCode(destination.country_code(:alpha2))
               xml.Unit do |xml|
                 xml.Value(package.value / (package.options[:item_count] || 1))
                 xml.Number((package.options[:item_count] || 1))
