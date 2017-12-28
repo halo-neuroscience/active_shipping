@@ -237,7 +237,7 @@ module ActiveShipping
     def upsified_location(location)
       if location.country_code == 'US' && US_TERRITORIES_TREATED_AS_COUNTRIES.include?(location.state)
         atts = {:country => location.state}
-        [:zip, :city, :address1, :address2, :address3, :phone, :fax, :address_type].each do |att|
+        [:zip, :city, :address1, :address2, :address3, :phone, :fax, :address_type, :tax_id].each do |att|
           atts[att] = location.send(att)
         end
         Location.new(atts)
@@ -627,6 +627,10 @@ module ActiveShipping
 
         if attn = location.name
           xml.AttentionName(attn)
+        end
+
+        if tax_id = location.tax_id
+          xml.TaxIdentificationNumber(tax_id)
         end
 
         xml.Address do
