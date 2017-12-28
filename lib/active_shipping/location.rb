@@ -13,6 +13,7 @@ module ActiveShipping #:nodoc:
                 :address3,
                 :phone,
                 :fax,
+                :tax_id,
                 :address_type,
                 :company_name
 
@@ -36,6 +37,7 @@ module ActiveShipping #:nodoc:
       @address3 = options[:address3]
       @phone = options[:phone]
       @fax = options[:fax]
+      @tax_id = options[:tax_id]
       @company_name = options[:company_name] || options[:company]
 
       self.address_type = options[:address_type]
@@ -54,6 +56,7 @@ module ActiveShipping #:nodoc:
         :address3 => [:address3],
         :phone => [:phone, :phone_number],
         :fax => [:fax, :fax_number],
+        :tax_id => [:tax_id],
         :address_type => [:address_type],
         :company_name => [:company, :company_name]
       }
@@ -103,6 +106,7 @@ module ActiveShipping #:nodoc:
         :address3 => address3,
         :phone => phone,
         :fax => fax,
+        :tax_id => tax_id,
         :address_type => address_type,
         :company_name => company_name
       }
