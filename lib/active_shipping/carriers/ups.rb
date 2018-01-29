@@ -434,11 +434,11 @@ module ActiveShipping
                   xml.MonetaryValue(total_value)
                 end
               end
+            end
 
-              contents_description = packages.map {|p| p.options[:description]}.compact.join(',')
-              unless contents_description.empty?
-                xml.Description(contents_description)
-              end
+            contents_description = packages.map {|p| p.options[:description]}.compact.join(',')
+            unless contents_description.empty?
+              xml.Description(contents_description)
             end
 
             if options[:return]
