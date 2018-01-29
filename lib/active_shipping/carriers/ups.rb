@@ -337,8 +337,6 @@ module ActiveShipping
       packages = Array(packages)
       shipper = options[:shipper] || origin
       options[:international] = origin.country.name != destination.country.name
-      # do not mark as international if origin country is puerto rico and destination is united states
-      options[:international] = false if origin.country.name == 'Puerto Rico' && destination.country.name == 'United States'
       options[:imperial] ||= IMPERIAL_COUNTRIES.include?(shipper.country_code(:alpha2))
       options[:return] = options[:return_service_code].present?
       options[:reason_for_export] ||= ("RETURN" if options[:return])
@@ -434,11 +432,11 @@ module ActiveShipping
                   xml.MonetaryValue(total_value)
                 end
               end
-            end
 
-            contents_description = packages.map {|p| p.options[:description]}.compact.join(',')
-            unless contents_description.empty?
-              xml.Description(contents_description)
+              contents_description = packages.map {|p| p.options[:description]}.compact.join(',')
+              unless contents_description.empty?
+                xml.Description(contents_description)
+              end
             end
 
             if options[:return]
